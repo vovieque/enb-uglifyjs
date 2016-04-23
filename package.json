@@ -1,0 +1,14 @@
+{
+  "name": "enb-uglifyjs",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vladimir Rakchaev",
+  "peerDependencies": {
+    "enb": "1.x"
+  },
+  "dependencies": {
+    "uglify-js": "^2.6.2"
+  }
+}
