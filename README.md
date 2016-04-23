@@ -18,5 +18,5 @@ npm i enb-uglifyjs
 **Пример**
 
 ```javascript
-[ require('enb-uglifyjs/techs/uglifyjs'), { source: '?.js', target: '_?.js' ;
+[ require('enb-uglifyjs/techs/uglifyjs'), { source: '?.js', target: '_?.js' } ];
 ```
