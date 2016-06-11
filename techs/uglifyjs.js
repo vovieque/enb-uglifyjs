@@ -15,7 +15,8 @@
  * ```
  */
 var UglifyJS = require('uglify-js');
-var vow = require('vow');
+var asyncFs = require('enb').asyncFs || require('enb/lib/fs/async-fs');
+var path = require('path');
 
 module.exports = require('enb/lib/build-flow').create()
 	.name('uglifyjs')
@@ -24,6 +25,14 @@ module.exports = require('enb/lib/build-flow').create()
 	.defineRequiredOption('source')
 	.useSourceFilename('source')
 	.builder(function (source) {
-		return UglifyJS.minify(source).code;
+		var queue = this.node.getSharedResources().jobQueue;
+		// Читаем код асинхронно вместо синхронного чтения средствами UglifyJS
+		return asyncFs.read(source, 'utf-8').then(function(code){
+			var minifierFilename = path.resolve(__dirname, '../lib/uglifyjs-minifier');
+			return queue.push(minifierFilename, code, {fromString:true})
+				.then(function (resultObj) {
+					return resultObj.code;
+				});
+		});
 	})
 	.createTech();
